@@ -1,5 +1,7 @@
 # FFT.Disposables
 
+[![NuGet package](https://img.shields.io/nuget/v/FFT.CRC.svg)](https://nuget.org/packages/FFT.Disposables)
+
 The `DisposeBase` class provides a number of features that make it easier to write code handling complex logic around the lifetimes of objects.
 
 1. The `Dispose` method and the `CustomDispose` override method are guaranteed to run only once, regardless of how many times they are called.

@@ -1,6 +1,6 @@
 # FFT.Disposables
 
-[![NuGet package](https://img.shields.io/nuget/v/FFT.CRC.svg)](https://nuget.org/packages/FFT.Disposables)
+[![NuGet package](https://img.shields.io/nuget/v/FFT.Disposables.svg)](https://nuget.org/packages/FFT.Disposables)
 
 The `DisposeBase` class provides a number of features that make it easier to write code handling complex logic around the lifetimes of objects.
 

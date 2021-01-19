@@ -4,6 +4,17 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
+
+    <PackageId>FFT.Disposables</PackageId>
+    <Summary>Base classes for disposable objects.</Summary>
+    <Description>$(Summary)</Description>
+    <Company>True Goodwill</Company>
+    <Authors>True Goodwill</Authors>
+    <PackageProjectUrl>https://github.com/FastFinTech/FFT.Disposables</PackageProjectUrl>
+    <RepositoryUrl>$(PackageProjectUrl)</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>crc</PackageTags>
+    <ApplicationIcon>FFT.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>

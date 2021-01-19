@@ -7,12 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FFT.Disposables", "FFT.Disp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".sln", ".sln", "{196EFBF0-D017-4F51-B4E1-16FE5C9351F0}"
 	ProjectSection(SolutionItems) = preProject
-		..\..\.editorconfig = ..\..\.editorconfig
-		..\..\.gitignore = ..\..\.gitignore
-		..\..\LICENSE = ..\..\LICENSE
-		..\..\.github\workflows\publish.yml = ..\..\.github\workflows\publish.yml
-		..\..\README.md = ..\..\README.md
-		..\..\version.json = ..\..\version.json
+		..\.editorconfig = ..\.editorconfig
+		..\.gitignore = ..\.gitignore
+		..\LICENSE = ..\LICENSE
+		..\.github\workflows\publish.yml = ..\.github\workflows\publish.yml
+		..\README.md = ..\README.md
+		..\version.json = ..\version.json
 	EndProjectSection
 EndProject
 Global

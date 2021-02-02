@@ -12,3 +12,7 @@ The `DisposeBase` class provides a number of features that make it easier to wri
 
 1. The `DisposalReason` exception property allows inspection of the reason an object was disposed.
 
+The `AsyncDisposeBase` class is the same thing but implementing `IAsyncDisposable`. 
+
+Neither of these base classes implements a finalization method. For this reason, the `CustomDispose` method does not have a `bool disposing` parameter because it is assumed that `Dispose` is being called by using code, not by a Garbage Collector's finalizer thread.
+

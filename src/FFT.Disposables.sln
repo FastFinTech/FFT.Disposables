@@ -9,9 +9,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".sln", ".sln", "{196EFBF0-D
 	ProjectSection(SolutionItems) = preProject
 		..\.editorconfig = ..\.editorconfig
 		..\.gitignore = ..\.gitignore
+		..\Directory.Build.props = ..\Directory.Build.props
 		..\LICENSE = ..\LICENSE
 		..\.github\workflows\publish.yml = ..\.github\workflows\publish.yml
 		..\README.md = ..\README.md
+		..\stylecop.json = ..\stylecop.json
 		..\version.json = ..\version.json
 	EndProjectSection
 EndProject

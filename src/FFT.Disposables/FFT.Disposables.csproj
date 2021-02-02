@@ -2,9 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <LangVersion>latest</LangVersion>
-    <Nullable>enable</Nullable>
-
+    <IsPackable>true</IsPackable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageId>FFT.Disposables</PackageId>
     <Summary>Base classes for disposable objects.</Summary>
     <Description>$(Summary)</Description>
@@ -13,15 +12,8 @@
     <PackageProjectUrl>https://github.com/FastFinTech/FFT.Disposables</PackageProjectUrl>
     <RepositoryUrl>$(PackageProjectUrl)</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageTags>crc</PackageTags>
+    <PackageTags>dispose;disposable</PackageTags>
     <ApplicationIcon>FFT.ico</ApplicationIcon>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Nerdbank.GitVersioning" Version="3.3.37">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
 
 </Project>

@@ -7,12 +7,10 @@ namespace FFT.Disposables
   using System.Threading;
   using System.Threading.Tasks;
 
-#pragma warning disable CA1063 // Implement IDisposable Correctly
-
   /// <summary>
   /// Inherit this class to use boiler plate code for disposable objects.
   /// </summary>
-  public abstract class DisposeBase : IDisposable
+  public abstract class AsyncDisposeBase : IAsyncDisposable
   {
     private readonly CancellationTokenSource _disposed;
     private readonly TaskCompletionSource<object?> _disposedTaskSource;
@@ -20,9 +18,9 @@ namespace FFT.Disposables
     private long _enteredDispose;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="DisposeBase"/> class.
+    /// Initializes a new instance of the <see cref="AsyncDisposeBase"/> class.
     /// </summary>
-    protected DisposeBase()
+    protected AsyncDisposeBase()
     {
       _disposed = new();
       DisposedToken = _disposed.Token;
@@ -34,14 +32,14 @@ namespace FFT.Disposables
     }
 
     /// <summary>
-    /// This cancellation token is cancelled when <see cref="Dispose()"/> has been called.
+    /// This cancellation token is cancelled when <see cref="DisposeAsync()"/> has been called.
     /// You can use it for cancelling operations that need to end when this class is disposed.
     /// </summary>
     public CancellationToken DisposedToken { get; }
 
     /// <summary>
     /// Gets a <see cref="Task"/> that completes (without exception) when this object has been disposed.
-    /// The task is not completed until the entire Dispose method (including the call to <see cref="CustomDispose()"/>) has been completed.
+    /// The task is not completed until the entire Dispose method (including the call to <see cref="CustomDisposeAsync()"/>) has been completed.
     /// </summary>
     public Task DisposedTask { get; }
 
@@ -51,23 +49,21 @@ namespace FFT.Disposables
     public bool IsDisposeStarted => Interlocked.Read(ref _enteredDispose) == 1;
 
     /// <summary>
-    /// At the time of disposal, just before the <see cref="CustomDispose()"/> method is called,
+    /// At the time of disposal, just before the <see cref="CustomDisposeAsync()"/> method is called,
     /// this property will contain the exception that triggered disposal. If disposal is due to
-    /// calling the <see cref="Dispose()"/> method when finished with the object with no exception,
+    /// calling the <see cref="DisposeAsync()"/> method when finished with the object with no exception,
     /// this property will contain an <see cref="ObjectDisposedException"/>.
     /// </summary>
     public Exception? DisposalReason { get; private set; }
 
-    /// <summary>
-    /// Disposes the object, setting the <see cref="DisposalReason"/> property to an instance of <see cref="ObjectDisposedException"/>.
-    /// </summary>
-    public void Dispose()
-        => Dispose(new ObjectDisposedException("Object has been disposed."));
+    /// <inheritdoc/>
+    public ValueTask DisposeAsync()
+        => DisposeAsync(new ObjectDisposedException("Object has been disposed."));
 
     /// <summary>
     /// Disposes the object, setting the <see cref="DisposalReason"/> property to the given <paramref name="disposalReason"/>.
     /// </summary>
-    public void Dispose(Exception? disposalReason)
+    public async ValueTask DisposeAsync(Exception? disposalReason)
     {
       // Ensures that disposal only runs once.
       if (Interlocked.CompareExchange(ref _enteredDispose, 1, 0) == 1)
@@ -76,7 +72,7 @@ namespace FFT.Disposables
       DisposalReason = disposalReason;
       _disposed.Cancel();
       _disposed.Dispose();
-      CustomDispose();
+      await CustomDisposeAsync();
       _disposedTaskSource.SetResult(null);
     }
 
@@ -84,6 +80,6 @@ namespace FFT.Disposables
     /// Override this method if you have some custom operations to perform at disposal.
     /// This method is guaranteed to be called only once.
     /// </summary>
-    protected virtual void CustomDispose() { }
+    protected virtual ValueTask CustomDisposeAsync() => default;
   }
 }

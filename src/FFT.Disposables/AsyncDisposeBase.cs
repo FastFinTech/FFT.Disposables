@@ -72,7 +72,7 @@ namespace FFT.Disposables
       DisposalReason = disposalReason;
       _disposed.Cancel();
       _disposed.Dispose();
-      await CustomDisposeAsync();
+      await CustomDisposeAsync().ConfigureAwait(false);
       _disposedTaskSource.SetResult(null);
     }
 

@@ -7,6 +7,7 @@ namespace FFT.Disposables
   using System.Threading;
   using System.Threading.Tasks;
   using FFT.IgnoreTasks;
+  using static System.Threading.Tasks.TaskCreationOptions;
 
   /// <summary>
   /// Inherit this class to use boiler plate code for disposable objects.
@@ -25,10 +26,12 @@ namespace FFT.Disposables
     {
       _disposed = new();
       DisposedToken = _disposed.Token;
-      // It's very important that the DisposedTask continuations run asynchronously and do not block the progress of the Dispose method,
-      // which should be able to complete immediately without waiting for this tasks's children to complete.
-      // So don't modify the constructor parameters.
-      _disposedTaskSource = new(TaskCreationOptions.RunContinuationsAsynchronously);
+      // It's very important that the DisposedTask continuations run
+      // asynchronously and do not block the progress of the Dispose method,
+      // which should be able to complete immediately without waiting for this
+      // tasks's children to complete. So don't modify the constructor
+      // parameters.
+      _disposedTaskSource = new(RunContinuationsAsynchronously | DenyChildAttach);
       DisposedTask = _disposedTaskSource.Task;
     }
 

@@ -6,6 +6,7 @@ namespace FFT.Disposables
   using System;
   using System.Threading;
   using System.Threading.Tasks;
+  using FFT.IgnoreTasks;
 
 #pragma warning disable CA1063 // Implement IDisposable Correctly
 
@@ -59,6 +60,16 @@ namespace FFT.Disposables
     public Exception? DisposalReason { get; private set; }
 
     /// <summary>
+    /// Starts disposal in a threadpool thread and returns without waiting for
+    /// the disposal to be completed. Exceptions thrown by the disposal method
+    /// (there should be none, unless you have a bug in the <see
+    /// cref="CustomDispose"/> method) are observed so they are not thrown in
+    /// the finalizer thread.
+    /// </summary>
+    public void KickoffDispose(Exception? disposalReason = null)
+      => Task.Run(() => Dispose(disposalReason)).Ignore();
+
+    /// <summary>
     /// Disposes the object, setting the <see cref="DisposalReason"/> property to an instance of <see cref="ObjectDisposedException"/>.
     /// </summary>
     public void Dispose()
@@ -70,7 +81,7 @@ namespace FFT.Disposables
     public void Dispose(Exception? disposalReason)
     {
       // Ensures that disposal only runs once.
-      if (Interlocked.CompareExchange(ref _enteredDispose, 1, 0) == 1)
+      if (Interlocked.Exchange(ref _enteredDispose, 1) == 1)
         return;
 
       DisposalReason = disposalReason;

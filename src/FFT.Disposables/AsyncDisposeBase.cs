@@ -6,6 +6,7 @@ namespace FFT.Disposables
   using System;
   using System.Threading;
   using System.Threading.Tasks;
+  using FFT.IgnoreTasks;
 
   /// <summary>
   /// Inherit this class to use boiler plate code for disposable objects.
@@ -56,6 +57,16 @@ namespace FFT.Disposables
     /// </summary>
     public Exception? DisposalReason { get; private set; }
 
+    /// <summary>
+    /// Starts disposal in a threadpool thread and returns without waiting for
+    /// the disposal to be completed. Exceptions thrown by the disposal method
+    /// (there should be none, unless you have a bug in the <see
+    /// cref="CustomDisposeAsync"/> method) are observed so they are not thrown
+    /// in the finalizer thread.
+    /// </summary>
+    public void KickoffDispose(Exception? disposalReason = null)
+      => DisposeAsync(disposalReason).Ignore();
+
     /// <inheritdoc/>
     public ValueTask DisposeAsync()
         => DisposeAsync(new ObjectDisposedException("Object has been disposed."));
@@ -66,7 +77,7 @@ namespace FFT.Disposables
     public async ValueTask DisposeAsync(Exception? disposalReason)
     {
       // Ensures that disposal only runs once.
-      if (Interlocked.CompareExchange(ref _enteredDispose, 1, 0) == 1)
+      if (Interlocked.Exchange(ref _enteredDispose, 1) == 1)
         return;
 
       DisposalReason = disposalReason;

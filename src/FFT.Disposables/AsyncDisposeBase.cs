@@ -31,7 +31,7 @@ namespace FFT.Disposables
       // which should be able to complete immediately without waiting for this
       // tasks's children to complete. So don't modify the constructor
       // parameters.
-      _disposedTaskSource = new(RunContinuationsAsynchronously | DenyChildAttach);
+      _disposedTaskSource = new(RunContinuationsAsynchronously);
       DisposedTask = _disposedTaskSource.Task;
     }
 

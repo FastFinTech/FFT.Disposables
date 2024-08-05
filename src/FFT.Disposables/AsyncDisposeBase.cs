@@ -1,8 +1,6 @@
 ﻿// Copyright (c) True Goodwill. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-#if NET
-namespace FFT.Disposables;
 
 using System;
 using System.Threading;
@@ -10,6 +8,7 @@ using System.Threading.Tasks;
 using FFT.IgnoreTasks;
 using static System.Threading.Tasks.TaskCreationOptions;
 
+namespace FFT.Disposables;
 /// <summary>
 /// Inherit this class to use boiler plate code for disposable objects.
 /// </summary>
@@ -26,7 +25,7 @@ public abstract class AsyncDisposeBase : IAsyncDisposable, IDisposeBase
   protected AsyncDisposeBase()
   {
     _disposed = new();
-    DisposedToken = _disposed.Token;
+    DisposingToken = _disposed.Token;
     // It's very important that the DisposedTask continuations run
     // asynchronously and do not block the progress of the Dispose method,
     // which should be able to complete immediately without waiting for this
@@ -37,7 +36,7 @@ public abstract class AsyncDisposeBase : IAsyncDisposable, IDisposeBase
   }
 
   /// <inheritdoc/>
-  public CancellationToken DisposedToken { get; }
+  public CancellationToken DisposingToken { get; }
 
   /// <inheritdoc/>
   public Task DisposedTask { get; }
@@ -78,4 +77,3 @@ public abstract class AsyncDisposeBase : IAsyncDisposable, IDisposeBase
   /// </summary>
   protected virtual ValueTask CustomDisposeAsync() => default;
 }
-#endif

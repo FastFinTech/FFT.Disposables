@@ -47,11 +47,9 @@ public interface IDisposeBase
   void KickoffDispose(Exception? exception = null);
 
   /// <summary>
-  /// Registers a callback to execute when this object is disposed, passing in the <see cref="DisposalReason"/> exception..
+  /// Registers a callback to execute when this object is disposed, passing in the <see cref="DisposalReason"/> exception.
+  /// Callback immediately executes if the object is already disposed.
   /// </summary>
   /// <param name="action">The callback to execute.</param>
-  void OnDisposing(Action<Exception> action)
-  {
-    DisposingToken.Register(() => action(DisposalReason!));
-  }
+  void OnDisposing(Action<Exception> action);
 }

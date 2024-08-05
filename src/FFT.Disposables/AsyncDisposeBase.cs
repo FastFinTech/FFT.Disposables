@@ -55,6 +55,12 @@ public abstract class AsyncDisposeBase : IAsyncDisposable, IDisposeBase
   public ValueTask DisposeAsync()
       => DisposeAsync(null);
 
+  /// <inheritdoc/>
+  public void OnDisposing(Action<Exception> action)
+  {
+    DisposingToken.Register(() => action(DisposalReason!));
+  }
+
   /// <summary>
   /// Disposes the object, setting the <see cref="DisposalReason"/> property to the given <paramref name="disposalReason"/>.
   /// </summary>

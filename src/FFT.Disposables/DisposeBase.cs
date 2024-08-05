@@ -75,6 +75,12 @@ public abstract class DisposeBase : IDisposable, IDisposeBase
     _disposedTaskSource.SetResult(null);
   }
 
+  /// <inheritdoc/>
+  public void OnDisposing(Action<Exception> action)
+  {
+    DisposingToken.Register(() => action(DisposalReason!));
+  }
+
   /// <summary>
   /// Override this method if you have some custom operations to perform at disposal.
   /// This method is guaranteed to be called only once.

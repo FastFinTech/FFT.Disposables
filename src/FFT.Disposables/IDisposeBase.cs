@@ -56,8 +56,8 @@ public interface IDisposeBase
 
   /// <summary>
   /// Starts the given <paramref name="task"/> on a background thread, calling
-  /// <see cref="KickoffDispose(Exception?)"/> if the task completes with an
-  /// error that is NOT an operation canceled exception.
+  /// <see cref="KickoffDispose(Exception?)"/> if the task completes with any
+  /// kind of error including an <see cref="OperationCanceledException"/>.
   /// </summary>
   void RunBackground(Func<Task> task);
 }

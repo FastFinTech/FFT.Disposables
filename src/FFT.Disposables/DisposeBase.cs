@@ -90,9 +90,6 @@ public abstract class DisposeBase : IDisposable, IDisposeBase
       {
         await task();
       }
-      catch (OperationCanceledException)
-      {
-      }
       catch (Exception x)
       {
         KickoffDispose(x);

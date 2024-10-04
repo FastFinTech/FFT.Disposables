@@ -70,9 +70,6 @@ public abstract class AsyncDisposeBase : IAsyncDisposable, IDisposeBase
       {
         await task();
       }
-      catch (OperationCanceledException)
-      {
-      }
       catch (Exception x)
       {
         KickoffDispose(x);

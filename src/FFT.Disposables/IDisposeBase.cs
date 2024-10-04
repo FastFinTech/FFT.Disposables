@@ -47,9 +47,17 @@ public interface IDisposeBase
   void KickoffDispose(Exception? exception = null);
 
   /// <summary>
-  /// Registers a callback to execute when this object is disposed, passing in the <see cref="DisposalReason"/> exception.
-  /// Callback immediately executes if the object is already disposed.
+  /// Registers a callback to execute when this object is disposed, passing in
+  /// the <see cref="DisposalReason"/> exception. Callback immediately executes
+  /// if the object is already disposed.
   /// </summary>
   /// <param name="action">The callback to execute.</param>
   void OnDisposing(Action<Exception> action);
+
+  /// <summary>
+  /// Starts the given <paramref name="task"/> on a background thread, calling
+  /// <see cref="KickoffDispose(Exception?)"/> if the task completes with an
+  /// error that is NOT an operation canceled exception.
+  /// </summary>
+  void RunBackground(Func<Task> task);
 }

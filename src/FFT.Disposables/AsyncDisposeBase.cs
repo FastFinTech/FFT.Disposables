@@ -61,6 +61,25 @@ public abstract class AsyncDisposeBase : IAsyncDisposable, IDisposeBase
     DisposingToken.Register(() => action(DisposalReason!));
   }
 
+  /// <inheritdoc cref="IDisposeBase.RunBackground(Func{Task})"/>
+  public void RunBackground(Func<Task> task)
+  {
+    Task.Run(async () =>
+    {
+      try
+      {
+        await task();
+      }
+      catch (OperationCanceledException)
+      {
+      }
+      catch (Exception x)
+      {
+        KickoffDispose(x);
+      }
+    });
+  }
+
   /// <summary>
   /// Disposes the object, setting the <see cref="DisposalReason"/> property to the given <paramref name="disposalReason"/>.
   /// </summary>

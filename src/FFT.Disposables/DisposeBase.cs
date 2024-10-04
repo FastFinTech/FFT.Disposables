@@ -81,6 +81,25 @@ public abstract class DisposeBase : IDisposable, IDisposeBase
     DisposingToken.Register(() => action(DisposalReason!));
   }
 
+  /// <inheritdoc cref="IDisposeBase.RunBackground(Func{Task})"/>
+  public void RunBackground(Func<Task> task)
+  {
+    Task.Run(async () =>
+    {
+      try
+      {
+        await task();
+      }
+      catch (OperationCanceledException)
+      {
+      }
+      catch (Exception x)
+      {
+        KickoffDispose(x);
+      }
+    });
+  }
+
   /// <summary>
   /// Override this method if you have some custom operations to perform at disposal.
   /// This method is guaranteed to be called only once.

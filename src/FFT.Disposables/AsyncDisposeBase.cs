@@ -46,8 +46,8 @@ public abstract class AsyncDisposeBase : IAsyncDisposable, IDisposeBase
   /// <inheritdoc/>
   public Exception? DisposalReason { get; private set; }
 
-  /// <inheritdoc cref="KickoffDispose(string?)"/>
-  public void KickoffDispose(string? reason = null)
+  /// <inheritdoc cref="KickoffDispose(string)"/>
+  public void KickoffDispose(string reason)
   {
     KickoffDispose(reason is null ? null : new Exception(reason));
   }

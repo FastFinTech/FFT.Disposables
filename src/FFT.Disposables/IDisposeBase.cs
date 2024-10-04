@@ -45,7 +45,7 @@ public interface IDisposeBase
   /// will be created from the given reason <paramref name="reason"/> and stored
   /// in the <see cref="DisposalReason"/> property.
   /// </summary>
-  void KickoffDispose(string? reason = null);
+  void KickoffDispose(string reason);
 
   /// <summary>
   /// Starts disposal in a threadpool thread and returns without waiting for

@@ -1,7 +1,6 @@
 ﻿// Copyright (c) True Goodwill. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -46,6 +45,12 @@ public abstract class AsyncDisposeBase : IAsyncDisposable, IDisposeBase
 
   /// <inheritdoc/>
   public Exception? DisposalReason { get; private set; }
+
+  /// <inheritdoc cref="KickoffDispose(string?)"/>
+  public void KickoffDispose(string? reason = null)
+  {
+    KickoffDispose(reason is null ? null : new Exception(reason));
+  }
 
   /// <inheritdoc/>
   public void KickoffDispose(Exception? disposalReason = null)

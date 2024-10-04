@@ -39,6 +39,15 @@ public interface IDisposeBase
   bool IsDisposeStarted { get; }
 
   /// <summary>
+  /// Starts disposal in a threadpool thread and returns without waiting for the
+  /// disposal to be completed. Exceptions thrown by the disposal are observed
+  /// but ignored so they are not thrown in the finalizer thread. An exception
+  /// will be created from the given reason <paramref name="reason"/> and stored
+  /// in the <see cref="DisposalReason"/> property.
+  /// </summary>
+  void KickoffDispose(string? reason = null);
+
+  /// <summary>
   /// Starts disposal in a threadpool thread and returns without waiting for
   /// the disposal to be completed.
   /// Exceptions thrown by the disposal are observed but ignored so they are not thrown
@@ -55,7 +64,7 @@ public interface IDisposeBase
   void OnDisposing(Action<Exception> action);
 
   /// <summary>
-  /// Starts the given <paramref name="task"/> on a background thread, calling
+  /// Starts the given <paramref name="task"/> on a threadpool thread, calling
   /// <see cref="KickoffDispose(Exception?)"/> if the task completes with any
   /// kind of error including an <see cref="OperationCanceledException"/>.
   /// </summary>

@@ -23,6 +23,9 @@ namespace FFT.Disposables.Tests
 
   internal class TestDisposable : DisposeBase
   {
+    public void A()
+    {
+    }
   }
 
   internal class AsyncTestDisposable : AsyncDisposeBase

@@ -49,6 +49,12 @@ public abstract class DisposeBase : IDisposable, IDisposeBase
   /// <inheritdoc/>
   public Exception? DisposalReason { get; private set; }
 
+  /// <inheritdoc cref="KickoffDispose(string?)"/>
+  public void KickoffDispose(string? reason = null)
+  {
+    KickoffDispose(reason is null ? null : new Exception(reason));
+  }
+
   /// <inheritdoc/>
   public void KickoffDispose(Exception? disposalReason = null)
     => Task.Run(() => Dispose(disposalReason)).Ignore();

@@ -1,4 +1,4 @@
-﻿// Copyright (c) True Goodwill. All rights reserved.
+// Copyright (c) True Goodwill. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 
@@ -68,5 +68,11 @@ public interface IDisposeBase
   /// <see cref="KickoffDispose(Exception?)"/> if the task completes with any
   /// kind of error including an <see cref="OperationCanceledException"/>.
   /// </summary>
-  void RunBackground(Func<Task> task);
+  /// <returns>The background task. The task is not returned so that you can
+  /// await it. Rather, it is returned so that you can store it and potentially
+  /// check when necessary whether it has completed. The returned task never
+  /// returns faulted, even if the background task faulted and kicked off
+  /// disposal. It simply completes when the background task is no longer
+  /// running, for any reason.</returns>
+  Task RunBackground(Func<Task> task);
 }

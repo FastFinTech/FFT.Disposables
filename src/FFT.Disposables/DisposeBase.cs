@@ -1,4 +1,4 @@
-﻿// Copyright (c) True Goodwill. All rights reserved.
+// Copyright (c) True Goodwill. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 
@@ -88,9 +88,9 @@ public abstract class DisposeBase : IDisposable, IDisposeBase
   }
 
   /// <inheritdoc cref="IDisposeBase.RunBackground(Func{Task})"/>
-  public void RunBackground(Func<Task> task)
+  public Task RunBackground(Func<Task> task)
   {
-    Task.Run(async () =>
+    return Task.Run(async () =>
     {
       try
       {

@@ -67,19 +67,18 @@ public abstract class AsyncDisposeBase : IAsyncDisposable, IDisposeBase
   }
 
   /// <inheritdoc cref="IDisposeBase.RunBackground(Func{Task})"/>
-  public Task RunBackground(Func<Task> task)
+  public async Task RunBackground(Func<Task> task)
   {
-    return Task.Run(async () =>
+    const TaskCreationOptions options = LongRunning | RunContinuationsAsynchronously;
+    try
     {
-      try
-      {
-        await task();
-      }
-      catch (Exception x)
-      {
-        KickoffDispose(x);
-      }
-    });
+      var theTask = await Task.Factory.StartNew(task, DisposingToken, options, TaskScheduler.Default).ConfigureAwait(false);
+      await theTask.ConfigureAwait(false);
+    }
+    catch (Exception x)
+    {
+      KickoffDispose(x);
+    }
   }
 
   /// <summary>

@@ -1,7 +1,6 @@
 // Copyright (c) True Goodwill. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -88,19 +87,18 @@ public abstract class DisposeBase : IDisposable, IDisposeBase
   }
 
   /// <inheritdoc cref="IDisposeBase.RunBackground(Func{Task})"/>
-  public Task RunBackground(Func<Task> task)
+  public async Task RunBackground(Func<Task> task)
   {
-    return Task.Run(async () =>
+    const TaskCreationOptions options = LongRunning | RunContinuationsAsynchronously;
+    try
     {
-      try
-      {
-        await task();
-      }
-      catch (Exception x)
-      {
-        KickoffDispose(x);
-      }
-    });
+      var theTask = await Task.Factory.StartNew(task, DisposingToken, options, TaskScheduler.Default).ConfigureAwait(false);
+      await theTask.ConfigureAwait(false);
+    }
+    catch (Exception x)
+    {
+      KickoffDispose(x);
+    }
   }
 
   /// <summary>

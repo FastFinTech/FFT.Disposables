@@ -2,17 +2,21 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 
+using System;
 using System.Threading.Tasks;
 
 namespace FFT.Disposables;
 
-public static class IDisposeBaseExtensions
+public static class IDisposableExtensions
 {
-  public static async ValueTask DisposeAsyncIfNotNull(this IDisposeBase? disposable)
+  public static ValueTask DisposeAsyncIfNotNull(this IDisposable? disposable)
   {
-    if (disposable is DisposeBase synchronousDisposable)
-      synchronousDisposable.Dispose();
-    else if (disposable is AsyncDisposeBase asyncronousDisposable)
-      await asyncronousDisposable.DisposeAsync();
+    disposable?.Dispose();
+    return default;
+  }
+
+  public static ValueTask DisposeIfNotNullAsync(this IAsyncDisposable? disposable)
+  {
+    return disposable?.DisposeAsync() ?? default;
   }
 }

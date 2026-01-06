@@ -73,11 +73,11 @@ public abstract class DisposeBase : IDisposable, IDisposeBase
     if (Interlocked.Exchange(ref _enteredDispose, 1) == 1)
       return;
 
-    DisposalReason = disposalReason ?? new ObjectDisposedException("Object has been disposed.");
+    DisposalReason = disposalReason ?? new ObjectDisposedException($"{GetType().Name} has been disposed.");
     _disposed.Cancel();
-    _disposed.Dispose();
     CustomDispose();
     _disposedTaskSource.SetResult(null);
+    _disposed.Dispose();
   }
 
   /// <inheritdoc/>
